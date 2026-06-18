@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daenerys Biz Hacking Tool 2</title>
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+background:linear-gradient(to bottom,#08162f,#111);
+
+color:white;
+
+font-family:tahoma,sans-serif;
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+padding:10px;
+
+}
+
+
+.game{
+
+width:100%;
+
+max-width:500px;
+
+}
+
+
+
+h1{
+
+text-align:center;
+
+letter-spacing:2px;
+
+font-size:26px;
+
+}
+
+
+
+.separator{
+
+height:2px;
+
+background:white;
+
+margin:10px 0;
+
+}
+
+
+
+.legend-item{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+margin:4px 0;
+
+font-size:12px;
+
+}
+
+
+
+.small-box{
+
+width:16px;
+
+height:16px;
+
+border-radius:4px;
+
+}
+
+
+
+.correct{
+
+background:#32d74b;
+
+color:#000;
+
+}
+
+
+.misplaced{
+
+background:#d4b16a;
+
+color:#000;
+
+}
+
+
+.wrong{
+
+background:#ff3b30;
+
+color:white;
+
+}
+
+
+
+
+#history{
+height:250px;
+overflow-y:auto;
+border:1px solid rgba(255,255,255,.2);
+border-radius:10px;
+padding:8px;
+
+display:flex;
+flex-direction:column-reverse;
+}
+
+
+
+.guess-row{
+
+display:flex;
+
+justify-content:center;
+
+gap:6px;
+
+margin:6px;
+
+}
+
+
+
+
+.digit{
+
+width:52px;
+
+height:52px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:26px;
+
+font-weight:bold;
+
+border-radius:6px;
+
+}
+
+
+
+
+.info{
+
+text-align:center;
+
+font-size:20px;
+
+margin:10px;
+
+}
+
+
+
+
+.input-area{
+
+display:flex;
+
+justify-content:center;
+
+gap:8px;
+
+}
+
+
+
+.num-input{
+
+width:45px;
+
+height:50px;
+
+font-size:28px;
+
+text-align:center;
+
+border:none;
+
+border-radius:6px;
+
+}
+
+
+
+
+.locked{
+
+background:#32d74b;
+
+color:black;
+
+}
+
+
+
+
+button{
+
+height:45px;
+
+padding:0 18px;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:15px;
+
+}
+
+
+
+.guess-btn{
+
+background:#30d158;
+
+color:white;
+
+}
+
+
+
+.restart-btn{
+
+background:#ff453a;
+
+color:white;
+
+}
+
+
+
+
+
+#message{
+
+text-align:center;
+
+margin-top:10px;
+
+font-size:18px;
+
+}
+
+
+
+
+.win{
+
+color:#32d74b;
+
+}
+
+
+.lose{
+
+color:#ff453a;
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+h1{
+
+font-size:21px;
+
+}
+
+
+#history{
+
+height:220px;
+
+}
+
+
+
+.digit{
+
+width:42px;
+
+height:42px;
+
+font-size:22px;
+
+}
+
+
+
+.num-input{
+
+width:40px;
+
+height:45px;
+
+font-size:24px;
+
+}
+
+
+
+button{
+
+font-size:13px;
+
+padding:0 12px;
+
+}
+
+
+}
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="game">
+
+
+<h1>Daenerys Biz Hacking Tool 2</h1>
+
+
+
+<div class="separator"></div>
+
+
+
+<div>
+
+
+<div class="legend-item">
+<div class="small-box correct"></div>
+رقم صحیح و جای صحیح
+</div>
+
+
+<div class="legend-item">
+<div class="small-box misplaced"></div>
+رقم صحیح ولی جای اشتباه
+</div>
+
+
+<div class="legend-item">
+<div class="small-box wrong"></div>
+رقم اشتباه
+</div>
+
+
+</div>
+
+
+
+<div class="separator"></div>
+
+
+
+<div id="history"></div>
+
+
+
+<div class="separator"></div>
+
+
+
+<div class="info">
+
+تلاش باقیمانده:
+
+<span id="attempts">7</span>
+
+</div>
+
+
+
+
+<div class="input-area">
+
+
+<input class="num-input" maxlength="1" inputmode="numeric">
+
+<input class="num-input" maxlength="1" inputmode="numeric">
+
+<input class="num-input" maxlength="1" inputmode="numeric">
+
+<input class="num-input" maxlength="1" inputmode="numeric">
+
+
+</div>
+
+
+
+<br>
+
+
+
+<div style="text-align:center">
+
+
+<button class="guess-btn" onclick="checkGuess()">
+
+حدس
+
+</button>
+
+
+<button class="restart-btn" onclick="newGame()">
+
+بازی جدید
+
+</button>
+
+
+</div>
+
+
+
+
+<div id="message"></div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+let secretNumber="";
+let attempts=7;
+
+let inputs=document.querySelectorAll(".num-input");
+
+let lockedNumbers=[];
+
+let currentIndex=0;
+
+newGame();
+
+function generateSecret(){
+
+    let digits=[];
+
+    while(digits.length<4){
+
+        let d=Math.floor(Math.random()*10).toString();
+
+        if(!digits.includes(d))
+            digits.push(d);
+
+    }
+
+    return digits.join("");
+}
+
+function highlightCurrent(){
+
+    inputs.forEach(i=>{
+
+        if(i.classList.contains("locked")){
+
+            i.style.background="#32d74b";
+            i.style.color="#000";
+
+        }else{
+
+            i.style.background="";
+            i.style.color="";
+        }
+
+    });
+
+    if(
+        currentIndex>=0 &&
+        currentIndex<inputs.length &&
+        !inputs[currentIndex].disabled
+    ){
+
+        inputs[currentIndex].style.background="#0a84ff";
+        inputs[currentIndex].style.color="#fff";
+
+    }
+
+}
+
+function newGame(){
+
+    secretNumber=generateSecret();
+
+    attempts=7;
+
+    lockedNumbers=[];
+
+    currentIndex=0;
+
+    document.getElementById("history").innerHTML="";
+
+    document.getElementById("attempts").innerText=attempts;
+
+    document.getElementById("message").innerHTML="";
+
+    inputs.forEach(i=>{
+
+        i.value="0";
+
+        i.disabled=false;
+
+        i.readOnly=true;
+
+        i.classList.remove("locked");
+
+    });
+
+    highlightCurrent();
+}
+
+function increaseDigit(){
+
+    let input=inputs[currentIndex];
+
+    if(!input || input.disabled) return;
+
+    let value=parseInt(input.value);
+
+    value++;
+
+    if(value>9) value=0;
+
+    input.value=value;
+}
+
+function decreaseDigit(){
+
+    let input=inputs[currentIndex];
+
+    if(!input || input.disabled) return;
+
+    let value=parseInt(input.value);
+
+    value--;
+
+    if(value<0) value=9;
+
+    input.value=value;
+}
+
+function moveLeft(){
+
+    let idx=currentIndex-1;
+
+    while(idx>=0 && inputs[idx].disabled){
+        idx--;
+    }
+
+    if(idx>=0){
+        currentIndex=idx;
+        highlightCurrent();
+    }
+}
+
+function moveRight(){
+
+    let idx=currentIndex+1;
+
+    while(idx<inputs.length && inputs[idx].disabled){
+        idx++;
+    }
+
+    if(idx<inputs.length){
+        currentIndex=idx;
+        highlightCurrent();
+    }
+}
+
+document.addEventListener("keydown",function(e){
+
+    switch(e.key.toLowerCase()){
+
+        case "w":
+            e.preventDefault();
+            increaseDigit();
+            break;
+
+        case "s":
+            e.preventDefault();
+            decreaseDigit();
+            break;
+
+        case "a":
+            e.preventDefault();
+            moveLeft();
+            break;
+
+        case "d":
+            e.preventDefault();
+            moveRight();
+            break;
+
+        case " ":
+            e.preventDefault();
+            checkGuess();
+            break;
+    }
+
+});
+
+function checkGuess(){
+
+    let guess="";
+
+    inputs.forEach(i=>{
+        guess += i.value;
+    });
+
+    let row=document.createElement("div");
+    row.className="guess-row";
+
+    for(let i=0;i<4;i++){
+
+        let box=document.createElement("div");
+        box.className="digit";
+        box.innerText=guess[i];
+
+        if(guess[i]===secretNumber[i]){
+
+            box.classList.add("correct");
+
+            if(!inputs[i].disabled){
+
+                inputs[i].disabled=true;
+                inputs[i].classList.add("locked");
+// اگر خانه فعلی قفل شد برو روی اولین خانه آزاد
+if(currentIndex === i){
+
+    let nextIndex = Array.from(inputs)
+        .findIndex(inp => !inp.disabled);
+
+    if(nextIndex !== -1){
+        currentIndex = nextIndex;
+    }
+
+}
+
+                inputs[i].style.background="#32d74b";
+                inputs[i].style.color="#000";
+            }
+
+        }
+        else if(secretNumber.includes(guess[i])){
+
+            box.classList.add("misplaced");
+
+        }
+        else{
+
+            box.classList.add("wrong");
+
+        }
+
+        row.appendChild(box);
+    }
+
+    let history=document.getElementById("history");
+
+    history.prepend(row);
+highlightCurrent();
+    history.scrollTop=0;
+
+    // بررسی برد قبل از کم کردن تلاش
+    if(guess === secretNumber){
+
+        showMessage("🎉 تبریک! شما برنده شدید","win");
+
+        inputs.forEach(i=>{
+            i.disabled=true;
+        });
+
+        return;
+    }
+
+    attempts--;
+
+    document.getElementById("attempts").innerText=attempts;
+
+highlightCurrent();
+    if(attempts===0){
+
+        showMessage("❌ باختی! جواب: "+secretNumber,"lose");
+
+        inputs.forEach(i=>{
+            i.disabled=true;
+        });
+
+    }
+
+}
+let allSolved = Array.from(inputs)
+
+function showMessage(text,cls=""){
+
+    let m=document.getElementById("message");
+
+    m.className=cls;
+
+    m.innerText=text;
+}
+
+</script>
+
+</body>
+</html>
