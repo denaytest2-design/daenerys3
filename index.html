@@ -627,33 +627,39 @@ function moveRight(){
 
 document.addEventListener("keydown",function(e){
 
-    switch(e.key.toLowerCase()){
+const key = e.key.toLowerCase();
 
-        case "w":
-            e.preventDefault();
-            increaseDigit();
-            break;
+switch(key){
 
-        case "s":
-            e.preventDefault();
-            decreaseDigit();
-            break;
+    case "w":
+    case "ص":
+        e.preventDefault();
+        increaseDigit();
+        break;
 
-        case "a":
-            e.preventDefault();
-            moveLeft();
-            break;
+    case "s":
+    case "س":
+        e.preventDefault();
+        decreaseDigit();
+        break;
 
-        case "d":
-            e.preventDefault();
-            moveRight();
-            break;
+    case "a":
+    case "ش":
+        e.preventDefault();
+        moveLeft();
+        break;
 
-        case " ":
-            e.preventDefault();
-            checkGuess();
-            break;
-    }
+    case "d":
+    case "ی":
+        e.preventDefault();
+        moveRight();
+        break;
+
+    case " ":
+        e.preventDefault();
+        checkGuess();
+        break;
+}
 
 });
 
